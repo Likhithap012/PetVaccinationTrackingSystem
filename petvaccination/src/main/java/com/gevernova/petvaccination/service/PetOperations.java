@@ -15,4 +15,6 @@ public interface PetOperations {
     public Pet updateById(long id, RequestDTO requestDTO);
 
     public void deleteById(long id);
+
+    public List<Pet> getPetsByVaccine(String vaccineName);
 }

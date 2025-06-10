@@ -68,4 +68,9 @@ public class PetService implements PetOperations {
     public void deleteById(long id) {
         repo.delete(getById(id));
     }
+
+    @Override
+    public List<Pet> getPetsByVaccine(String vaccineName) {
+        return repo.findByVaccinationsName(vaccineName);
+    }
 }

@@ -52,4 +52,9 @@ public class VaccinationController {
         petService.deleteById(id);
         return ResponseEntity.ok("Pet with Id "+id+" has been deleted successfully");
     }
+
+    @GetMapping("/pets/vaccinated/{name}")
+    public ResponseEntity<List<Pet>>getByVaccine(@PathVariable String name) {
+        return ResponseEntity.ok(petService.getPetsByVaccine(name));
+    }
 }
