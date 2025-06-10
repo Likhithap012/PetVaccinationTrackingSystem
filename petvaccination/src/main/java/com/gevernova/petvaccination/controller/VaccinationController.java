@@ -13,35 +13,35 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/vaccine")
+@RequestMapping("/api")
 public class VaccinationController {
 
     private final PetService petService;
 
     private final VaccinationRepo vaccinationRepo;
 
-    @PostMapping
+    @PostMapping("/pets")
     public ResponseEntity<Pet> create(@Valid @RequestBody RequestDTO requestDTO){
         return ResponseEntity.ok(petService.create(petService.mapToPet(requestDTO)));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/pets/{id}")
     public ResponseEntity<Pet> getById(@PathVariable long id) {
         return ResponseEntity.ok(vaccinationRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Pet with ID " + id + " not found")));
     }
 
-    @GetMapping("/all")
+    @GetMapping("/pets/all")
     public ResponseEntity<List<Pet>> getAllPets(){
         return ResponseEntity.ok(petService.getAllpets());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/pets/{id}")
     public ResponseEntity<ResponseDTO> update(@PathVariable long id,@Valid @RequestBody RequestDTO requestDTO){
         return ResponseEntity.ok(petService.maptoResponse(petService.updateById(id,requestDTO)));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/pets/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable long id){
         petService.deleteById(id);
         return ResponseEntity.noContent().build();
