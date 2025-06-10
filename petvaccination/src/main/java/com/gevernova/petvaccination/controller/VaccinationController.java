@@ -48,8 +48,8 @@ public class VaccinationController {
     }
 
     @DeleteMapping("/pets/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable long id){
+    public ResponseEntity<String> deleteById(@PathVariable long id){
         petService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Pet with Id "+id+" has been deleted successfully");
     }
 }
