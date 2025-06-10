@@ -21,19 +21,25 @@ public class VaccinationController {
     private final VaccinationRepo vaccinationRepo;
 
     @PostMapping("/pets")
-    public ResponseEntity<Pet> create(@Valid @RequestBody RequestDTO requestDTO){
-        return ResponseEntity.ok(petService.create(petService.mapToPet(requestDTO)));
+    public ResponseEntity<ResponseDTO> create(@Valid @RequestBody RequestDTO requestDTO){
+        return ResponseEntity.ok(petService.maptoResponse(petService.create(petService.mapToPet(requestDTO))));
     }
 
     @GetMapping("/pets/{id}")
-    public ResponseEntity<Pet> getById(@PathVariable long id) {
-        return ResponseEntity.ok(vaccinationRepo.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Pet with ID " + id + " not found")));
+    public ResponseEntity<ResponseDTO> getById(@PathVariable long id) {
+        Pet pet = vaccinationRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Pet with ID " + id + " not found"));
+        ResponseDTO responseDTO = petService.maptoResponse(pet);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @GetMapping("/pets/all")
-    public ResponseEntity<List<Pet>> getAllPets(){
-        return ResponseEntity.ok(petService.getAllpets());
+    public ResponseEntity<List<ResponseDTO>> getAllPets(){
+        List<Pet> pets = petService.getAllpets();
+        List<ResponseDTO> responseDTOs = pets.stream()
+                .map(petService::maptoResponse)
+                .toList();
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @PutMapping("/pets/{id}")
